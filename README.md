@@ -1,86 +1,125 @@
-# YouTube Content Intelligence Platform
+<div align="center">
+  
+# ▶️ YouTube Content Intelligence Platform
 
-## Project Overview
-This project is a complete, production-quality data science pipeline designed to analyze YouTube video performance. It collects data via the official YouTube Data API v3, cleans it, engineers features, trains machine learning models to predict video performance, and presents the results in an interactive Streamlit dashboard.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-The overarching goal is to answer: *"What characteristics are associated with successful YouTube videos, and can we predict whether a new video is likely to perform well?"*
+*An end-to-end, production-ready machine learning pipeline and interactive dashboard designed to analyze and predict YouTube video performance while strictly preventing data leakage.*
 
-## Architecture & Data Pipeline
-1. **Data Collection (`src/collector.py`)**: Fetches videos, statistics, and channel data. Handles API pagination and prevents redundant fetching.
-2. **Data Cleaning (`src/cleaner.py`)**: Handles missing values, ISO 8601 duration parsing, type casting, and outlier detection.
-3. **Feature Engineering (`src/feature_engineering.py`)**: Extracts predictive features (title characteristics, upload timing, channel size) and analytical features (engagement rates).
-4. **Machine Learning (`src/train.py`)**: 
-   - *Classification*: Predicts if a video is "High Performing" (top 25%).
-   - *Regression*: Estimates `log_views`.
-5. **Dashboard (`dashboard/app.py`)**: Interactive UI for exploration and prediction.
-6. **Orchestration (`run.py`)**: CLI entry point supporting single-runs or continuous daemon schedules.
+</div>
 
-## Tech Stack
-- **Python 3.10+**
-- **Data Collection:** `google-api-python-client` (YouTube Data API v3)
-- **Data Manipulation:** `pandas`, `numpy`
-- **Machine Learning:** `scikit-learn`, `joblib`
-- **Visualization:** `plotly`
-- **Dashboard:** `streamlit`
-- **Automation:** `schedule`
+---
 
-## Setup Instructions
+## 🎯 Project Overview
+This platform answers a critical question for creators and analysts: *"What pre-publication characteristics are associated with successful YouTube videos, and can we predict if a new video will perform well?"*
 
-### 1. Clone & Environment
+Instead of relying on post-publication metrics (like comments or early views), this ML pipeline predicts performance using **only** data available *before* hitting publish (e.g., Title structure, Video duration, Upload timing, Channel size).
+
+## 🏗️ Architecture
+
+The project is built on a clean, modular ELT (Extract, Load, Transform) and ML architecture:
+
+```mermaid
+graph LR
+    %% Styling
+    classDef api fill:#ff0000,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef process fill:#1e1e1e,stroke:#fff,stroke-width:1px,color:#fff;
+    classDef db fill:#0e1117,stroke:#ff0000,stroke-width:1px,color:#fff;
+    classDef ml fill:#0055ff,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef dash fill:#00b8ff,stroke:#fff,stroke-width:2px,color:#000;
+
+    %% Nodes
+    API[YouTube API v3]:::api
+    Raw[(Raw CSV)]:::db
+    Clean[Cleaner & FE]:::process
+    Proc[(Processed CSV)]:::db
+    Train[ML Training]:::ml
+    Model[(Saved Models)]:::db
+    Dash[Streamlit UI]:::dash
+
+    %% Flow
+    API -->|src/collector.py| Raw
+    Raw -->|src/cleaner.py| Clean
+    Clean -->|src/feature_engineering.py| Proc
+    Proc -->|src/train.py| Train
+    Train -->|joblib| Model
+    Proc -.->|Data Analysis| Dash
+    Model -.->|Real-time Predictions| Dash
+```
+
+### Core Modules
+1. **Collector (`src/collector.py`)**: Batches requests to the YouTube Data API v3, handling pagination and deduplication.
+2. **Cleaner (`src/cleaner.py`)**: Parses ISO 8601 durations and sanitizes missing values.
+3. **Feature Engineering (`src/feature_engineering.py`)**: Extracts predictive metadata (e.g., uppercase ratio, upload hour) while explicitly isolating post-publication metrics to prevent target leakage.
+4. **Machine Learning (`src/train.py`)**: Trains an ensemble of models (Gradient Boosting, Random Forest) for both classification (Top 25% performance) and regression (log-views).
+5. **Dashboard (`dashboard/app.py`)**: A premium, "glassmorphism" styled Streamlit interface featuring Plotly analytics and real-time ML inferencing.
+6. **Orchestrator (`run.py`)**: A CLI entry point supporting single-runs or continuous daemon scheduling.
+
+---
+
+## 🚀 Setup & Installation
+
+### 1. Clone the Repository
 ```bash
-git clone <repository_url>
+git clone https://github.com/jemmziray-tech/youtube-content-intelligence.git
 cd youtube-content-intelligence
+```
+
+### 2. Create Virtual Environment
+```bash
 python -m venv .venv
-# Activate: 
-# Windows: .\.venv\Scripts\Activate.ps1
-# Mac/Linux: source .venv/bin/activate
+# Windows
+.\.venv\Scripts\Activate.ps1
+# Mac/Linux
+source .venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-### 2. API Configuration
-1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
-2. Create a new project and enable the **YouTube Data API v3**.
-3. Create API Credentials (API Key).
-4. Rename `.env.example` to `.env` and add your key:
+### 3. API Configuration
+1. Obtain a **YouTube Data API v3** key from the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a `.env` file in the project root:
+```env
+YOUTUBE_API_KEY=your_api_key_here
 ```
-YOUTUBE_API_KEY=your_actual_api_key_here
-```
-*Note: Never commit your `.env` file to version control.*
 
-### 3. Usage
-Run the pipeline to collect, clean, engineer, and train:
+---
+
+## 💻 Usage
+
+The entire platform is orchestrated via `run.py`.
+
+**Run the Full Data Pipeline (Collect ➔ Clean ➔ Train):**
 ```bash
 python run.py --collect
 ```
 
-Launch the Streamlit dashboard:
+**Launch the Interactive Dashboard:**
 ```bash
 python run.py --dashboard
 ```
 
-Run as a continuous background daemon (e.g., every 24 hours):
+**Run as a Continuous Background Daemon (e.g., fetch new data every 24 hours):**
 ```bash
 python run.py --daemon 24
 ```
 
-Run unit tests:
-```bash
-pytest tests/
-```
+---
 
-## Machine Learning & Data Leakage Prevention
-**CRITICAL:** The models are built specifically to prevent **data leakage**.
-- **Prediction Features:** Factors known *at or before* publication (e.g., title length, upload day/hour, video duration, channel subscriber count).
-- **Analysis Features:** Factors known only *after* publication (e.g., likes, comments, views, engagement rate). These are used in the EDA dashboard but **strictly excluded** from the ML models.
+## 🧠 Machine Learning Approach
 
-## Limitations & Ethical Considerations
-- **API Quota:** The YouTube API has a daily quota (typically 10,000 units). The collector is optimized to batch requests, but large-scale frequent updates will exhaust the quota.
-- **Algorithm Bias:** Models are trained on a snapshot of historical data. YouTube's recommendation algorithms evolve constantly, making view prediction inherently probabilistic, not deterministic.
-- **Correlation vs. Causation:** Feature importance (e.g., title length) indicates correlation with success in this dataset, not a guaranteed causal mechanism.
+**Strict Data Leakage Prevention:**
+A common mistake in YouTube analytics is training models using "Likes" or "Comments" to predict "Views". This is *target leakage*. This platform strictly separates:
+- **Prediction Features:** Title length, Uppercase ratio, Video duration, Upload Day/Hour, Channel subscriber count.
+- **Analysis Features (Excluded from ML):** Likes, Comments, Engagement Rate, Actual Views.
 
-## Future Improvements
-- **NLP & Sentiment Analysis:** Generate embeddings from video descriptions and titles.
-- **Thumbnail Analysis:** Extract visual features from video thumbnails.
-- **Time-Series Forecasting:** Track video performance metrics continuously over time.
-- **Database Migration:** Move from flat CSVs to PostgreSQL for the raw and processed data layers.
+**Model Evaluation (Current Best):**
+- *Classification (High Performing):* Gradient Boosting Classifier (ROC-AUC: ~0.80)
+- *Regression (Log Views):* Random Forest Regressor ($R^2$: ~0.71)
+
+## ⚖️ Limitations & Ethics
+- **Algorithmic Opacity:** YouTube's recommendation algorithm is proprietary and heavily influenced by user history and thumbnail CTR, which are not accessible via the API. This model estimates baseline potential, not guaranteed virality.
+- **API Quotas:** Frequent bulk data collection will exhaust standard free-tier API quotas.
