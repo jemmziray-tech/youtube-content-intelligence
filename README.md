@@ -1,6 +1,7 @@
 <div align="center">
-  
-# ▶️ YouTube Content Intelligence Platform
+  <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" width="200"/>
+
+# YouTube Content Intelligence Platform
 
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit_App-red?style=for-the-badge&logo=streamlit)](https://youtube-content-intelligence.streamlit.app/)
 
@@ -108,6 +109,21 @@ python run.py --dashboard
 ```bash
 python run.py --daemon 24
 ```
+
+---
+
+## ☁️ Deploying to Streamlit Community Cloud
+
+If you want to host this dashboard live for free on [Streamlit Community Cloud](https://share.streamlit.io/):
+
+1. **Push this repository** to your GitHub account.
+2. **Log into Streamlit Community Cloud** with your GitHub account and click **"New app"**.
+3. Point it to your repository, branch (`main`), and main file path (`dashboard/app.py`).
+4. **Configure Secrets (Crucial!):** Before clicking deploy, click on **"Advanced settings"**. In the **Secrets** field, paste your API key exactly like your `.env` file:
+   ```toml
+   YOUTUBE_API_KEY="your_api_key_here"
+   ```
+5. Click **Deploy!**
 
 ---
 
