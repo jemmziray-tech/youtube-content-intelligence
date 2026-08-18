@@ -2,6 +2,8 @@
   
 # ▶️ YouTube Content Intelligence Platform
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit_App-red?style=for-the-badge&logo=streamlit)](https://youtube-content-intelligence.streamlit.app/)
+
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
