@@ -129,8 +129,8 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("### Portfolio Project")
-    st.markdown("Built by an expert AI Engineer.")
-    st.markdown("Powered by Streamlit & Scikit-Learn.")
+    st.markdown("Built by **John Mziray**")
+    st.markdown("📧 [jem.mziray@gmail.com](mailto:jem.mziray@gmail.com)")
 
 if df.empty and page not in ["Data Refresh", "About"]:
     st.warning("No data found! Please go to 'Data Refresh' to run the initial data collection.")
