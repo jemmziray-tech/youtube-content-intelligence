@@ -4,12 +4,9 @@
   <a href="https://github.com/jemmziray-tech/youtube-content-intelligence">
     <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=28&pause=1000&color=F70000&center=true&vCenter=true&width=600&lines=YouTube+Content+Intelligence;Predictive+AI+Analytics;Built+by+John+Mziray" alt="Typing SVG" />
   </a>
-[![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit_App-red?style=for-the-badge&logo=streamlit)](https://youtube-content-intelligence.streamlit.app/)
-
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://streamlit.io)
-[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<a href="https://youtube-content-intelligence.streamlit.app/">
+  <img src="animated_badges.svg" alt="Animated Tech Stack Badges" />
+</a>
 
 *An end-to-end, production-ready machine learning pipeline and interactive dashboard designed to analyze and predict YouTube video performance while strictly preventing data leakage.*
 
