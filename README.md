@@ -1,8 +1,9 @@
 <div align="center">
   <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" width="200"/>
 
-# YouTube Content Intelligence Platform
-
+  <a href="https://github.com/jemmziray-tech/youtube-content-intelligence">
+    <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&weight=700&size=28&pause=1000&color=F70000&center=true&vCenter=true&width=600&lines=YouTube+Content+Intelligence;Predictive+AI+Analytics;Built+by+John+Mziray" alt="Typing SVG" />
+  </a>
 [![Live Demo](https://img.shields.io/badge/Live_Demo-Streamlit_App-red?style=for-the-badge&logo=streamlit)](https://youtube-content-intelligence.streamlit.app/)
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
